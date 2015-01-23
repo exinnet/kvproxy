@@ -1,0 +1,48 @@
+ROOT_PATH=`dirname $0`
+ 
+start(){
+	PID=`pgrep kvproxy`
+	if  [ -n "$PID" ]; then
+		echo "PID[$PID] kvproxy start fail.please kill kvproxy before start."
+	else
+		$ROOT_PATH/../bin/kvproxy -d
+		sleep 1
+		PID=`pgrep kvproxy`
+		if [ -n "$PID" ]; then
+			echo "PID[$PID] kvproxy start success."
+		else
+			echo "kvproxy start fail"
+		fi
+	fi
+}
+
+stop(){
+	PID=`pgrep kvproxy`
+	if  [ -n "$PID" ]; then
+		kill -2 $PID
+		sleep 1
+		echo "PID[$PID] kvproxy stop success."
+	else
+		echo "kvproxy stop fail.not find pid of kvproxy"
+	fi
+}
+
+restart(){
+	stop
+	start
+}
+
+case "$1" in
+  start)
+    start
+    ;;
+  stop)
+    stop
+    ;;
+  restart)
+    restart
+    ;;
+*)
+    echo $"Usage: $0 {start|stop|restart}"
+    exit 2
+esac
