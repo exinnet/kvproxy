@@ -40,5 +40,5 @@ $ ./sbin/kvproxy restart
 ```
 
 ##性能
-###测试环境
-* 8核cpu
+* 单线程  6000qps
+* 开启cpu亲缘性 8个线程  50000qps
