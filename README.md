@@ -47,14 +47,26 @@ $ ./sbin/kvproxy restart
 kvproxy的配置文件使用的时ini格式。默认文件在安装目录的etc文件夹下。文件名为 kvproxy.ini。
 ```ini
 [kvproxy]
+; 监听的端口号
 port=55669
+; 开启的线程数。在linux平台下，如果cpu_affinity设置为on，开启的线程数自动为cpu内核数量。
 thread_count=2
+; 是否开启cpu亲缘性
 cpu_affinity=on
+; 等待被处理的连接数
 backlog=10000
-;unit millisecond
+; 从后端服务器读取数据超时时间，单位 毫秒
 recv_timeout=100
+; 日志文件路径，默认为安装目录 ./log/kvproxy.log
 ;log_path=/tmp/kvproxy.log
+; 错误级别。选项有 fatal error warn info debug。
+; fatal 为致命错误。发生致命错误会导致kvproxy进程退出。
+; error 为请求错误。发生请求错误会导致本次请求失败。
+; warn  为请求警告。发生请求警告说明本次请求过程中出现了异常，可能请求会成功。
+; info  为冗余模式。会打印出请求执行过程中的一些冗余信息。
+; debug 为调试模式。会打印出请求过程中的一些调试信息。
 log_level=warn
+; 扩展安装路径。默认为安装目录下的 ./ext
 ;ext_path=../ext
 ;unit MB
 max_packet=1
