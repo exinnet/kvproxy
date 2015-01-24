@@ -936,14 +936,17 @@ int main(int argc ,char **args){
     }
     
     initLog(cwd);
-    cpu_num = get_nprocs();
     cpu_affinity = Config::getConfBool("kvproxy","cpu_affinity");
     thread_count = Config::getConfInt("kvproxy","thread_count");
+
+#ifdef linux
+    cpu_num = get_nprocs();
     if(cpu_affinity == true){
         thread_count = cpu_num;
     }else if(thread_count <= 0){
         thread_count = 1;
     }
+#endif
     KvProxy server(thread_count, cpu_affinity);
     
     ext_path = Config::getConfStr("kvproxy","ext_path");

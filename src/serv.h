@@ -11,7 +11,10 @@
 #include <time.h>
 #include <pthread.h>
 #include <stdint.h>
-#include <sys/sysinfo.h>
+
+#ifdef linux
+    #include <sys/sysinfo.h>
+#endif
 
 #include <event.h>
 #include <event2/bufferevent.h>

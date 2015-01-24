@@ -103,8 +103,11 @@ void *Server::workerLibevent(void *arg){
 
 bool Server::startRun(int backlog){
     evconnlistener *listener;
+
+#ifdef linux
     int cpu_num = get_nprocs();
     cpu_set_t cpu_info;
+#endif
 
     if( m_port != EXIT_CODE ){
         sockaddr_in sin;
@@ -124,6 +127,7 @@ bool Server::startRun(int backlog){
             workerLibevent, (void*)&m_threads[i]);
     }
 
+ #ifdef linux
     if(m_cpu_affinity != true){
         cpu_num = 0;
     }else if(cpu_num > m_thread_count){
@@ -136,6 +140,7 @@ bool Server::startRun(int backlog){
             errorQuit("set affinity failed");
         }
     }
+#endif
     event_base_dispatch(m_main_base->base);
     if(m_port != EXIT_CODE){
         evconnlistener_free(listener);
