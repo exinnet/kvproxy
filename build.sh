@@ -93,6 +93,8 @@ echo "CFLAGS += -I \"$LIBEVENT_PATH/include\"" >> build_config.mk
 echo "CLIBS=" >> build_config.mk
 echo "CLIBS += ${PLATFORM_CLIBS}" >> build_config.mk
 echo "CLIBS += \"$LIBEVENT_PATH/.libs/libevent.a\"" >> build_config.mk
-echo "CLIBS += \"$TCMALLOC_PATH/.libs/libtcmalloc_minimal.a\"" >> build_config.mk
 
+if [ -f "$TCMALLOC_PATH/.libs/libtcmalloc_minimal.a" ]; then
+    echo "CLIBS += \"$TCMALLOC_PATH/.libs/libtcmalloc_minimal.a\"" >> build_config.mk
+fi
 echo "##tips: if stoped, please run command [make] again ##"
