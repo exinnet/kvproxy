@@ -112,3 +112,6 @@ sync_str = "+"
 ##问题反馈
 如果发现了bug，或者有其他问题。可以到以下网址反馈。
 https://github.com/exinnet/kvproxy/issues
+
+##贡献者&感谢
+
