@@ -115,3 +115,4 @@ https://github.com/exinnet/kvproxy/issues
 
 ##贡献者&感谢
 
+* 许长敬 
