@@ -39,6 +39,26 @@ $ ./sbin/kvproxy stop
 $ ./sbin/kvproxy restart
 ```
 
+##查看运行状态
+```sh
+$telnet 127.0.0.1 55669
+Trying 127.0.0.1...
+Connected to localhost.
+Escape character is '^]'.
+status
+
+Number of processed requests [0]
+Number of requests failed [0]
+  - 127.0.0.1:11211 [0]
+Number of continuous requests failed [0]
+  - 127.0.0.1:11211 [0]
+All of offline hosts [0] 
+Number of client connection [1]
+Number of backend connection [0]
+Read timeout of backend connection [100ms]
+Size of async queue [0]
+```
+
 ##性能
 * 单线程  6000qps
 * 开启cpu亲缘性 8个线程  50000qps
