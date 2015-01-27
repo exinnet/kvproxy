@@ -7,7 +7,7 @@ all:
 	@echo
 	@echo "##### init folders ... #####"
 	mkdir -p ./ext
-	mkdir -p ./ect
+	mkdir -p ./etc
 	mkdir -p ./bin
 	mkdir -p ./sbin
 	mkdir -p ./log
