@@ -40,6 +40,7 @@ $ ./sbin/kvproxy restart
 ```
 
 ##查看运行状态
+可以通过telnet命令连接到kvproxy的监听端口，然后使用status命令查看kvproxy的运行状况。
 ```sh
 $telnet 127.0.0.1 55669
 Trying 127.0.0.1...
