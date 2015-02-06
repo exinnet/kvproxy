@@ -115,6 +115,8 @@ hosts=master
 hosts_read=master
 ; 同步数据复制前缀符号。默认的数据复制为异步复制。如果想数据复制为同步复制，可以把key的前缀设置为指定字符串。
 sync_str = "+" 
+; 使用的协议类型 binary 二级制协议  text 文本协议
+proto = binary
 
 ;;;;;;;;;;;;;;;;
 ; 服务器组设置 ;
