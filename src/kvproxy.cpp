@@ -192,6 +192,12 @@ string KvProxy::getStatus(){
         str_host_offline += "  - " + host + ":" + int2str(port) + " [offline]\n";
         int_host_offline++;
     }
+
+    //todo concurrency
+    if(st_conn < 0){
+        st_conn = 0;
+    }
+
     content += "Number of requests failed [" + int2str(int_req_failed) + "]\n";
     content += str_req_failed;
     content += "Number of continuous requests failed [" + int2str(int_req_cont_failed) + "]\n";
@@ -565,7 +571,7 @@ void KvProxy::readEvent(Conn *conn){
         return ;
     }
     
-    ext_ret = ptr_parse_req(buf_ptr, buf_len, &position[thread_index], &req_list_data[thread_index]);
+    ext_ret = ptr_parse_req(get_conf, buf_ptr, buf_len, &position[thread_index], &req_list_data[thread_index]);
     
     if (ext_ret == SUCCESS){
         log_debug("[%d]parse request function return %d. success", cur_conn_fd, ext_ret);
@@ -707,7 +713,7 @@ void KvProxy::readFromBackend(uint32_t conn_fd, resp_list_t * resp_list, uint32_
             if(resp_buf_len[thread_index] >= resp_buf_size[thread_index]){
                 return ;
             }
-            ext_ret = ptr_parse_resp((const char *)resp_buf[thread_index], resp_buf_len[thread_index], &pos, resp_list);
+            ext_ret = ptr_parse_resp(get_conf, (const char *)resp_buf[thread_index], resp_buf_len[thread_index], &pos, resp_list);
             if(ext_ret == SUCCESS){
                 log_info("[%d]ptr_parse_resp. content size %d. return code %d. success",cur_conn_fd, resp_buf_len[thread_index], ext_ret);
                 resp_buf_len[thread_index] = 0;
@@ -749,7 +755,7 @@ void KvProxy::talkToBackend(req_group_t * const req_group_data, const char * buf
     log_debug("[%d]req_group_data size %d.",cur_conn_fd, req_group_data->size());
     for (req_group_it = req_group_data->begin(); req_group_it != (*req_group_data).end(); req_group_it++){
         log_debug("[%d]req_group_data to host alias %d, size %d.",cur_conn_fd, req_group_it->first, req_group_it->second.size());
-        ext_ret = ptr_create_req(&req_group_it->second, (char *)backend_buf[thread_index], &backend_buf_len[thread_index]);
+        ext_ret = ptr_create_req(get_conf, &req_group_it->second, (char *)backend_buf[thread_index], &backend_buf_len[thread_index]);
         if (ext_ret == SUCCESS && backend_buf_len[thread_index] != 0){
             log_debug("[%d]ptr_create_req return success.req_data_to_backend size %d",cur_conn_fd, backend_buf_len[thread_index]);
             conn_fd = getConnection(req_group_it->first, cur_conn_fd, thread_index);
@@ -776,7 +782,7 @@ void KvProxy::talkToBackend(req_group_t * const req_group_data, const char * buf
         backend_buf_len[thread_index] = 0;
     }
     client_buf_len[thread_index] = 0;
-    ext_ret = ptr_create_resp(&resp_list, (char *)client_buf[thread_index], &client_buf_len[thread_index], &client_buf_size[thread_index]);
+    ext_ret = ptr_create_resp(get_conf, &resp_list, (char *)client_buf[thread_index], &client_buf_len[thread_index], &client_buf_size[thread_index]);
 }
 
 void KvProxy::talkToBackendAsync(req_group_async_t * const req_group_data, int cur_conn_fd, uint32_t thread_index){
@@ -790,7 +796,7 @@ void KvProxy::talkToBackendAsync(req_group_async_t * const req_group_data, int c
     log_debug("[%d]req_group_data size %d.",cur_conn_fd, req_group_data->size());
     for (req_group_it = req_group_data->begin(); req_group_it != (*req_group_data).end(); req_group_it++){
         log_debug("[%d]req_group_data to host alias %d, size %d.",cur_conn_fd, req_group_it->first, req_group_it->second.size());
-        ext_ret = ptr_create_req_async(&req_group_it->second, (char *)backend_buf[thread_index], &backend_buf_len[thread_index]);
+        ext_ret = ptr_create_req_async(get_conf, &req_group_it->second, (char *)backend_buf[thread_index], &backend_buf_len[thread_index]);
         if (ext_ret == SUCCESS && backend_buf_len[thread_index] != 0){
             log_debug("[%d]ptr_create_req return success.req_data_to_backend size %d",cur_conn_fd, backend_buf_len[thread_index]);
             conn_fd = getConnection(req_group_it->first, cur_conn_fd, thread_index);
@@ -887,6 +893,10 @@ void initLog(string cwd){
         level = get_log_level(log_level.c_str());
         set_log_level(level);
     }
+}
+
+string get_conf(string section, string key){
+    return Config::getConfStr(section, key);
 }
 
 int main(int argc ,char **args){    

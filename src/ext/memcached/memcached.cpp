@@ -1,15 +1,26 @@
 #include "memcached.h"
 
-ext_ret_t memcached_parse_req(const char * const origin_req, int size, int * position, req_list_t * req_data){
+PARSE_REQ(memcached){
     int ret;
     req_t req_item;
     bool is_agin = false; 
     bool is_binary;
+    static bool init_use_binary = false;
+    static int use_binary = true;
+    string str_proto;
     memcached_header header;
     int header_len = 0;
     
+    if(init_use_binary == false){
+        str_proto = get_conf("memcached", "proto");
+        if(str_proto == "text"){
+            use_binary = false;
+        }
+        init_use_binary = true;
+    }
+
     is_binary = is_binary_protocol(origin_req, size);
-    if(PROTO_BINARY != is_binary){
+    if(use_binary != is_binary){
         return ERROR;
     }
     if(is_binary == true){
@@ -85,7 +96,7 @@ ext_ret_t memcached_parse_req(const char * const origin_req, int size, int * pos
     }
 }
 
-ext_ret_t memcached_create_req(req_ptr_list_t * const req_data, char * req_data_to_backend, int * length){
+CREATE_REQ(memcached){
     req_ptr_list_t::iterator it;
     const char * end_str = NULL;
     int end_len = 0;
@@ -105,7 +116,7 @@ ext_ret_t memcached_create_req(req_ptr_list_t * const req_data, char * req_data_
     return SUCCESS;
 }
 
-ext_ret_t memcached_create_req_async(comm_list_t * const req_data, char * req_data_to_backend, int * length){
+CREATE_REQ_ASYNC(memcached){
     comm_list_t::iterator it;
     const char * end_str = NULL;
     int end_len = 0;
@@ -125,7 +136,7 @@ ext_ret_t memcached_create_req_async(comm_list_t * const req_data, char * req_da
     return SUCCESS;
 }
 
-ext_ret_t memcached_parse_resp( const char * const origin_resp, int size, int * position, resp_list_t * resp_data){
+PARSE_RESP(memcached){
     int ret;
     bool is_agin;
     bool is_binary;
@@ -171,7 +182,7 @@ ext_ret_t memcached_parse_resp( const char * const origin_resp, int size, int * 
     }
 }
 
-ext_ret_t memcached_create_resp(resp_list_t * const resp_data, char * resp_data_to_client , int * length, int * size){
+CREATE_RESP(memcached){
     resp_list_t::iterator it;
     const char * end_str = NULL;
     int end_len = 0;
@@ -199,7 +210,7 @@ ext_ret_t memcached_create_resp(resp_list_t * const resp_data, char * resp_data_
     return SUCCESS;
 }
 
-int memcached_ext_version(){
+EXT_VERSION(memcached){
     return EXT_VER;
 }
 
