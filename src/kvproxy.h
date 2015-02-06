@@ -18,6 +18,7 @@
 #include <queue>
 #include <list>
 #include <map>
+#include <array>
 #include <limits.h>
 
 using namespace std;
@@ -89,7 +90,7 @@ private:
     map<uint32_t, int> client_buf_len;
     
     uint32_t st_req;
-    uint32_t st_conn;
+    int32_t st_conn;
     uint32_t st_limit;
     map<uint32_t, uint32_t> st_cont_fail;
     map<uint32_t, uint32_t> st_fail;
@@ -138,5 +139,7 @@ public:
     void initVar();
     bool failover(uint32_t alias_index, bool is_del);
 };
+
+string get_conf(string section, string key);
 
 #endif

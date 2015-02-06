@@ -7,8 +7,6 @@
 #include <arpa/inet.h>
 #include "protocol_binary.h"
 
-#define PROTO_BINARY false
-
 extern "C" {
     struct memcached_header{
         int keylen;
@@ -16,12 +14,12 @@ extern "C" {
         int bodylen;
         int opcode;
     };
-    ext_ret_t memcached_parse_req(const char * const origin_req, int size, int * position, req_list_t * req_data);
-    ext_ret_t memcached_create_req(req_ptr_list_t * const req_data, char * req_data_to_backend, int * length);
-    ext_ret_t memcached_create_req_async(comm_list_t * const req_data, char * req_data_to_backend, int * length);
-    ext_ret_t memcached_parse_resp(const char * const origin_resp, int size, int * position, resp_list_t * resp_data);
-    ext_ret_t memcached_create_resp(resp_list_t * const resp_data, char * resp_data_to_client, int * length, int * size);
-    int memcached_ext_version();
+    PARSE_REQ(memcached);
+    CREATE_REQ(memcached);
+    CREATE_REQ_ASYNC(memcached);
+    PARSE_RESP(memcached);
+    CREATE_RESP(memcached);
+    EXT_VERSION(memcached);
 
     static bool is_binary_protocol(const char * data, int size);
     static int try_read_request_binary(const char * req_data, int size, memcached_header * header);
