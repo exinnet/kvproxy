@@ -15,6 +15,10 @@
 * 良好的协议扩展性。
 * 默认支持memcached的二进制协议和文本协议
 
+##文档
+[kvproxy的master和slave数据主从复制简介](http://www.bo56.com/kvproxy%E7%9A%84%E6%95%B0%E6%8D%AE%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6%E7%AE%80%E4%BB%8B/)
+[kvproxy配置文件之集群设置](http://www.bo56.com/kvproxy%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E4%B9%8B%E9%9B%86%E7%BE%A4%E8%AE%BE%E7%BD%AE/)
+
 ##安装
 
 ```sh
