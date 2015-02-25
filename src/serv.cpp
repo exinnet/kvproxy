@@ -127,7 +127,7 @@ bool Server::startRun(int backlog){
             workerLibevent, (void*)&m_threads[i]);
     }
 
- #ifdef linux
+#ifdef linux
     if(m_cpu_affinity != true){
         cpu_num = 0;
     }else if(cpu_num > m_thread_count){
