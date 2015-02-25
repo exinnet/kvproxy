@@ -18,35 +18,35 @@ fi
 
 case "$TARGET_OS" in
     Darwin)
-        PLATFORM_CLIBS="-ldl -pthread"
+        PLATFORM_CLIBS="-ldl -pthread -std=c++0x"
         ;;
     Linux)
-        PLATFORM_CLIBS="-ldl -pthread -lrt"
+        PLATFORM_CLIBS="-ldl -pthread -lrt -std=c++0x"
         ;;
     OS_ANDROID_CROSSCOMPILE)
-        PLATFORM_CLIBS="-ldl -pthread -lrt"
+        PLATFORM_CLIBS="-ldl -pthread -lrt -std=c++0x"
         ;;
     CYGWIN_*)
-        PLATFORM_CLIBS="-ldl -pthread -lrt"
+        PLATFORM_CLIBS="-ldl -pthread -lrt -std=c++0x"
         ;;
     SunOS)
-        PLATFORM_CLIBS="-ldl -pthread -lrt"
+        PLATFORM_CLIBS="-ldl -pthread -lrt -std=c++0x"
         ;;
     FreeBSD)
-        PLATFORM_CLIBS="-ldl -pthread -lrt"
+        PLATFORM_CLIBS="-ldl -pthread -lrt -std=c++0x"
         MAKE=gmake
         ;;
     NetBSD)
-        PLATFORM_CLIBS="-ldl -pthread -lgcc_s -lrt"
+        PLATFORM_CLIBS="-ldl -pthread -lgcc_s -lrt -std=c++0x"
         ;;
     OpenBSD)
-        PLATFORM_CLIBS="-ldl -pthread -lrt"
+        PLATFORM_CLIBS="-ldl -pthread -lrt -std=c++0x"
         ;;
     DragonFly)
-        PLATFORM_CLIBS="-ldl -pthread -lrt"
+        PLATFORM_CLIBS="-ldl -pthread -lrt -std=c++0x"
         ;;
     HP-UX)
-        PLATFORM_CLIBS="-ldl -pthread -lrt"
+        PLATFORM_CLIBS="-ldl -pthread -lrt -std=c++0x"
         ;;
     *)
         echo "Unknown platform!" >&2
