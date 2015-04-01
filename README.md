@@ -21,8 +21,12 @@
 [kvproxy配置文件之集群设置](http://www.bo56.com/kvproxy%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E4%B9%8B%E9%9B%86%E7%BE%A4%E8%AE%BE%E7%BD%AE/)
 
 ##安装
-安装环境中建议  autoconf版本>2.62     automake版本>1.13  g++版本>4.3
+###安装环境中建议  
+* autoconf版本>2.62     
+* automake版本>1.13  
+* g++版本>4.4
 
+###安装步骤
 ```sh
 $ wget --no-check-certificate https://github.com/exinnet/kvproxy/archive/master.zip
 $ unzip master
